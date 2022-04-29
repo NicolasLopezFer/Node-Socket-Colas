@@ -14,6 +14,33 @@ const socketController = (socket) => {
         //TODO: Notificar que hay un nuevo ticket pendiente de asignar
 
     });
+
+    socket.on('atender-ticket', ({escritorio}, callback) => {
+
+        if(!escritorio) {
+            return callback({
+                ok: false,
+                msg: 'Escritorio obligatorio'
+            });
+        }
+
+        const ticket = ticketControl.atenderTicket( escritorio );
+
+        //TODO: Notificar cambio en los ultimos 4
+
+
+        if(!ticket){
+            return callback({
+                ok: false,
+                msg: 'No hay tickets pendientes'
+            });
+        } else {
+            callback({
+                ok: true,
+                ticket
+            });
+        }
+    })
   }
 
 
